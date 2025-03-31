@@ -1,24 +1,36 @@
 #!/usr/bin/python3
+# 2-matrix_divided.py
+"""Defines a matrix division function."""
 
-def say_my_name(first_name, last_name=""):
-    """
-    Prints "My name is <first name> <last name>".
-    
+
+def matrix_divided(matrix, div):
+    """Divide all elements of a matrix.
+
     Args:
-        first_name: The first name as a string.
-        last_name: The last name as a string (optional, defaults to empty string).
-        
+        matrix (list): A list of lists of ints or floats.
+        div (int/float): The divisor.
     Raises:
-        TypeError: If first_name or last_name is not a string.
+        TypeError: If the matrix contains non-numbers.
+        TypeError: If the matrix contains rows of different sizes.
+        TypeError: If div is not an int or float.
+        ZeroDivisionError: If div is 0.
+    Returns:
+        A new matrix representing the result of the division.
     """
-    if not isinstance(first_name, str):
-        raise TypeError("first_name must be a string")
-    if not isinstance(last_name, str):
-        raise TypeError("last_name must be a string")
-    
-    print(f"My name is {first_name} {last_name}")
+    if (not isinstance(matrix, list) or matrix == [] or
+            not all(isinstance(row, list) for row in matrix) or
+            not all((isinstance(ele, int) or isinstance(ele, float))
+                    for ele in [num for row in matrix for num in row])):
+        raise TypeError("matrix must be a matrix (list of lists) of "
+                        "integers/floats")
 
-# Example usage
-say_my_name("John", "Doe")  # Output: My name is John Doe
-say_my_name("Alice")  # Output: My name is Alice
+    if not all(len(row) == len(matrix[0]) for row in matrix):
+        raise TypeError("Each row of the matrix must have the same size")
 
+    if not isinstance(div, int) and not isinstance(div, float):
+        raise TypeError("div must be a number")
+
+    if div == 0:
+        raise ZeroDivisionError("division by zero")
+
+    return ([list(map(lambda x: round(x / div, 2), row)) for row in matrix])
