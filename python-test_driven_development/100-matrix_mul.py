@@ -1,54 +1,61 @@
 #!/usr/bin/python3
-def matrix_mul(m_a, m_b):
-    # 1. Check if m_a and m_b are lists
-    if not isinstance(m_a, list):
-        raise TypeError("m_a must be a list")
-    if not isinstance(m_b, list):
-        raise TypeError("m_b must be a list")
 
-    # 2. Check if m_a and m_b are lists of lists
-    if not all(isinstance(row, list) for row in m_a):
-        raise TypeError("m_a must be a list of lists")
-    if not all(isinstance(row, list) for row in m_b):
-        raise TypeError("m_b must be a list of lists")
+from lazy_matrix_mul import lazy_matrix_mul
 
-    # 3. Check if m_a or m_b is empty (either [] or [[]])
-    if m_a == [] or m_a == [[]]:
-        raise ValueError("m_a can't be empty")
-    if m_b == [] or m_b == [[]]:
-        raise ValueError("m_b can't be empty")
+# Valid matrix multiplication - integer values
+print(lazy_matrix_mul([[1, 2], [3, 4]], [[5, 6], [7, 8]]))
+# Expected Output: [[19, 22], [43, 50]]
 
-    # 4. Check that all elements in m_a and m_b are ints or floats
-    for row in m_a:
-        if not all(isinstance(elem, (int, float)) for elem in row):
-            raise TypeError("m_a should contain only integers or floats")
-    for row in m_b:
-        if not all(isinstance(elem, (int, float)) for elem in row):
-            raise TypeError("m_b should contain only integers or floats")
+# Valid matrix multiplication - floats
+print(lazy_matrix_mul([[1.0, 2.0], [3.0, 4.0]], [[0.5, 0.5], [0.5, 0.5]]))
+# Expected Output: [[1.5, 1.5], [3.5, 3.5]]
 
-    # 5. Check that each row of m_a and m_b is the same size
-    row_length_a = len(m_a[0])
-    if not all(len(row) == row_length_a for row in m_a):
-        raise TypeError("each row of m_a must be of the same size")
+# m_a is not a list
+try:
+    lazy_matrix_mul("not a list", [[1, 2], [3, 4]])
+except Exception as e:
+    print(e)
+# Expected: m_a must be a list
 
-    row_length_b = len(m_b[0])
-    if not all(len(row) == row_length_b for row in m_b):
-        raise TypeError("each row of m_b must be of the same size")
+# m_b is not a list of lists
+try:
+    lazy_matrix_mul([[1, 2], [3, 4]], [1, 2])
+except Exception as e:
+    print(e)
+# Expected: m_b must be a list of lists
 
-    # 6. Check if m_a and m_b can be multiplied (columns in m_a == rows in m_b)
-    if len(m_a[0]) != len(m_b):
-        raise ValueError("m_a and m_b can't be multiplied")
+# m_a is empty
+try:
+    lazy_matrix_mul([], [[1, 2], [3, 4]])
+except Exception as e:
+    print(e)
+# Expected: m_a can't be empty
 
-    # 7. Matrix multiplication logic
-    result = []
-    for i in range(len(m_a)):  # iterate over rows of m_a
-        new_row = []
-        for j in range(len(m_b[0])):  # iterate over columns of m_b
-            elem = 0
-            for k in range(len(m_b)):  # iterate over the shared dimension
-                elem += m_a[i][k] * m_b[k][j]
-            new_row.append(elem)
-        result.append(new_row)
+# m_b is [[]]
+try:
+    lazy_matrix_mul([[1, 2], [3, 4]], [[]])
+except Exception as e:
+    print(e)
+# Expected: m_b can't be empty
 
-    return result
+# Element in m_a is not int/float
+try:
+    lazy_matrix_mul([[1, '2'], [3, 4]], [[5, 6], [7, 8]])
+except Exception as e:
+    print(e)
+# Expected: m_a should contain only integers or floats
+
+# m_b has uneven rows
+try:
+    lazy_matrix_mul([[1, 2], [3, 4]], [[1, 2], [3]])
+except Exception as e:
+    print(e)
+# Expected: each row of m_b must be of the same size
+
+# Incompatible sizes for multiplication
+try:
+    lazy_matrix_mul([[1, 2]], [[1, 2], [3, 4], [5, 6]])
+except Exception as e:
+    print(e)
+# Expected: m_a and m_b can't be multiplied
 

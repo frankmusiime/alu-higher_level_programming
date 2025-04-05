@@ -1,0 +1,36 @@
+Test 1: Valid integer matrix multiplication
+Input: [[1, 2], [3, 4]] x [[5, 6], [7, 8]]
+Output: [[19, 22], [43, 50]]
+
+Test 2: Valid float matrix multiplication
+Input: [[1.0, 2.0], [3.0, 4.0]] x [[0.5, 0.5], [0.5, 0.5]]
+Output: [[1.5, 1.5], [3.5, 3.5]]
+
+Test 3: m_a is not a list
+Input: "not a list" x [[1, 2], [3, 4]]
+Exception: TypeError: m_a must be a list
+
+Test 4: m_b is not a list of lists
+Input: [[1, 2], [3, 4]] x [1, 2]
+Exception: TypeError: m_b must be a list of lists
+
+Test 5: m_a is empty
+Input: [] x [[1, 2], [3, 4]]
+Exception: ValueError: m_a can't be empty
+
+Test 6: m_b is [[]]
+Input: [[1, 2], [3, 4]] x [[]]
+Exception: ValueError: m_b can't be empty
+
+Test 7: m_a has non-numeric value
+Input: [[1, '2'], [3, 4]] x [[5, 6], [7, 8]]
+Exception: TypeError: m_a should contain only integers or floats
+
+Test 8: m_b has uneven rows
+Input: [[1, 2], [3, 4]] x [[1, 2], [3]]
+Exception: TypeError: each row of m_b must be of the same size
+
+Test 9: Incompatible sizes
+Input: [[1, 2]] x [[1, 2], [3, 4], [5, 6]]
+Exception: ValueError: m_a and m_b can't be multiplied
+
