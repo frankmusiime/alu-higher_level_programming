@@ -2,4 +2,3 @@
 
 const myVar = 89;
 console.log(myVar);
-

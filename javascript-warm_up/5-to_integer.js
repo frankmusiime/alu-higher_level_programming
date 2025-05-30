@@ -7,4 +7,3 @@ if (Number.isInteger(num)) {
 } else {
   console.log('Not a number');
 }
-
